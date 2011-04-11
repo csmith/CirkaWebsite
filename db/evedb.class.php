@@ -1,5 +1,7 @@
 <?PHP
 
+require_once(dirname(dirname(__FILE__)) . '/model/ship.php');
+
 class EveDB {
 
  private $pdo;
@@ -51,7 +53,5 @@ class ItemsTableHandler extends BaseHandler {
  }
 
 }
-
-class Ship {}
 
 ?>

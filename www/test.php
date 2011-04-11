@@ -2,6 +2,7 @@
 
  require('../api/common.php');
  require('../db/evedb.class.php');
+ require('../model/asset.php');
 
  header('Content-type: text/plain');
 
@@ -11,7 +12,18 @@
  function getAsset($asset) {
   global $db;
 
-  $res = $db->items->getById($asset->typeID);
+  $res = new Asset();
+
+  $res->id = $asset->itemID;
+
+  if (isset($asset->locationID)) {
+   $res->location = $asset->locationID;
+  }
+
+  $res->quantity = $asset->quantity;
+  $res->flag = $asset->flag;
+  $res->singleton = $asset->singleton;
+  $res->item = $db->items->getById($asset->typeID);
   
   if (isset($asset->contents)) {
    $res->contents = array();
