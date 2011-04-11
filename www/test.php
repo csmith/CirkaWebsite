@@ -17,7 +17,7 @@
   $res->id = $asset->itemID;
 
   if (isset($asset->locationID)) {
-   $res->location = $asset->locationID;
+   $res->location = $db->locations->getById($asset->locationID);
   }
 
   $res->quantity = $asset->quantity;
@@ -36,7 +36,7 @@
   return $res;
  }
 
- foreach ($api->charScope->AssetList(array('characterID' => $_GET['char']))->assets as $asset) {
+ foreach ($api->corpScope->AssetList(array('characterID' => $_GET['char']))->assets as $asset) {
   var_dump(getAsset($asset));
  }
 ?>
