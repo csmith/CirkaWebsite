@@ -21,7 +21,7 @@
   }
 
   $res->quantity = $asset->quantity;
-  $res->flag = $asset->flag;
+  $res->flag = $db->flags->getById($asset->flag);
   $res->singleton = $asset->singleton;
   $res->item = $db->items->getById($asset->typeID);
   

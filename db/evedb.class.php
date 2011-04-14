@@ -14,6 +14,7 @@ class EveDB {
   $this->handlers = array(
    'items' => new ItemsTableHandler($this->pdo),
    'locations' => new LocationsTableHandler($this->pdo),
+   'flags' => new FlagsTableHandler($this->pdo),
   );
  }
 
@@ -51,6 +52,28 @@ class ItemsTableHandler extends BaseHandler {
  public function getById($id) {
   $this->getByIdSmt->execute(array(':id' => $id));
   return $this->getByIdSmt->fetch(PDO::FETCH_CLASS | PDO::FETCH_CLASSTYPE);
+ }
+
+}
+
+class FlagsTableHandler extends BaseHandler {
+
+ private $getAllSmt;
+ private $cache = array();
+
+ protected function initStatements() {
+  $this->getAllSmt = $this->pdo->prepare('SELECT flagId AS id, flagName AS name, flagText AS text FROM invFlags');
+ }
+
+ public function getById($id) {
+  if (empty($this->cache)) {
+   $this->getAllSmt->execute();
+   foreach ($this->getAllSmt->fetchAll(PDO::FETCH_CLASS) as $flag) {
+    $this->cache[(int) $flag->id] = $flag;
+   }
+  }
+
+  return $this->cache[(int) $id];
  }
 
 }
