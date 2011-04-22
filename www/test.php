@@ -29,7 +29,13 @@
    $res->contents = array();
 
    foreach($asset->contents as $content) {
-    $res->contents[] = getAsset($content);
+    $child = getAsset($content);
+
+    if (!isset($res->contents[$child->flag->name])) {
+     $res->contents[$child->flag->name] = array();
+    }
+
+    $res->contents[$child->flag->name][] = $child;
    }
   }
 
